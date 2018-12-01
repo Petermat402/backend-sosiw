@@ -1,11 +1,7 @@
 'use strict';
 module.exports = (sequelize, DataTypes) => {
     const credential = sequelize.define('credential', {
-        /*id: {
-            primaryKey: true,
-            type: DataTypes.INTEGER,
-            allowNull: false
-        },*/
+
         login: {
             type: DataTypes.STRING,
             allowNull: false
@@ -14,13 +10,17 @@ module.exports = (sequelize, DataTypes) => {
             type: DataTypes.STRING,
             allowNull: false
         },
+        role: {
+            type: DataTypes.STRING,
+            allowNull: false
+        }
     });
     credential.associate = function (models) {
         credential.hasOne(models.student, {
-            foreignKey: 'id_student'
+            foreignKey: 'id'
         });
         credential.hasOne(models.teacher, {
-            foreignKey: 'id_teacher'
+            foreignKey: 'id'
         })
     };
     return credential;

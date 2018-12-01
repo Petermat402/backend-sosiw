@@ -16,4 +16,10 @@ module.exports = {
             next();
         });
     },
+
+    createToken(id) {
+        return jwt.sign({id: id}, config.key, {
+            expiresIn: 86400 // expires in 24 hours
+        });
+    }
 };

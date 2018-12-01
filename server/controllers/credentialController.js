@@ -10,14 +10,17 @@ module.exports = {
             })
     },
 
-    create(req, res) {
-        return Promise.all([credential
-            .create({
-                login: req.body.login,
-                password: req.body.password
-            }),
+    create(req, res, hashedPassword) {
+        return Promise.all([
+            credential
+                .create({
+                    login: req.body.login,
+                    password: hashedPassword,
+                    role: req.body.role
+                }),
             Promise.resolve(req),
-            Promise.resolve(res)])
+            Promise.resolve(res)
+        ])
 
     },
 
