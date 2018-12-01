@@ -1,13 +1,15 @@
-const credentialController = require('./credentialController');
-const ocenaController = require('./ocenaController');
-const przedmiotController = require('./przedmiotController');
-const nauczycielController = require('./nauczycielController');
-const studentController = require('./studentController')
+const loginController = require('./loginController');
+const gradeController = require('./gradeController');
+const courseController = require('./courseController');
+const teacherController = require('./teacherController');
+const studentController = require('./studentController');
+const authorizationController = require('./authorizationController');
 
 module.exports = {
-    credentialController,
-    ocenaController,
-    przedmiotController,
-    nauczycielController,
-    studentController
+    loginController,
+    gradeController,
+    courseController,
+    teacherController,
+    studentController,
+    authorizationController
 };

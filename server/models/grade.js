@@ -1,7 +1,7 @@
 'use strict';
 module.exports = (sequelize, DataTypes) => {
-  const Ocena = sequelize.define('Ocena', {
-    id_przedmiot: {
+  const ocena = sequelize.define('grade', {
+    id_course: {
       type:DataTypes.INTEGER,
         allowNull: false,
     },
@@ -9,18 +9,18 @@ module.exports = (sequelize, DataTypes) => {
       type:DataTypes.INTEGER,
         allowNull: false
     },
-    wartosc: {
+    value: {
       type:DataTypes.DECIMAL(2,1),
         allowNull: true
     }
   });
-  Ocena.associate = function(models) {
-   Ocena.belongsTo(models.student, {
-     foreignKey: 'id_student'
+  ocena.associate = function(models) {
+   ocena.belongsTo(models.student, {
+     foreignKey: 'id'
    });
-   Ocena.belongsTo(models.przedmiot, {
-     foreignKet: 'id_przedmiot'
+   ocena.belongsTo(models.course, {
+     foreignKet: 'id'
    })
   };
-  return Ocena;
+  return ocena;
 };

@@ -1,10 +1,11 @@
 'use strict';
 module.exports = (sequelize, DataTypes) => {
-    const Student = sequelize.define('Student', {
-        id_student: {
+    const student = sequelize.define('student', {
+        /*id_student: {
+            primaryKey: true,
             allowNull: false,
             type: DataTypes.INTEGER
-        },
+        },*/
         imie: {
             allowNull: false,
             type: DataTypes.STRING
@@ -25,18 +26,18 @@ module.exports = (sequelize, DataTypes) => {
             allowNull: false,
             type: DataTypes.STRING
         },
-        wydzial: {
+        departament: {
             allowNull: false,
             type: DataTypes.STRING
         }
     });
-    Student.associate = function (models) {
-        Student.belongsTo(models.credential, {
-            foreignKey: 'id_osoby'
+    student.associate = function (models) {
+        student.belongsTo(models.credential, {
+            foreignKey: 'id'
         });
-        Student.hasMany(models.ocena, {
+        student.hasMany(models.grade, {
             foreignKey: 'id_student'
         })
     };
-    return Student;
+    return student;
 };

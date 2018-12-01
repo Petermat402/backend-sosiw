@@ -1,17 +1,16 @@
-const student = require('../models').student;
+const teacher = require('../models').teacher;
 
 module.exports = {
     create(req, res) {
-        return student
+        return teacher
             .create({
-                imie: req.body.nazwisko,
-                nazwisko: req.body.nazwisko,
+                name: req.body.name,
+                surname: req.body.surname,
                 pesel: req.body.pesel,
                 email: req.body.email,
-                grupa: req.body.grupa,
                 departament: req.body.departament
             })
-            .then(nauczyciel => res.status(201).send(nauczyciel))
+            .then(teacher => res.status(201).send(teacher))
             .catch(error => res.status(400).send(error));
     },
 };

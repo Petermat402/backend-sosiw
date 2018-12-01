@@ -1,10 +1,12 @@
-const credentialController = require('../controllers').credentialController;
+const loginController = require('../../controllers').loginController;
+const authenticationService = require('../../services/authenticationService');
 
 module.exports = (app) => {
     app.get('/login', (req, res) => res.status(200).send({
-        message: 'Welcome to the Todos API!',
+        message: 'Welcome to the Login!',
     }));
 
-   // app.post('/login/credentialCreate', credentialController.create);
+    app.post('/register', authenticationService.verifyToken, loginController.register);
+    app.get('/token', loginController.token);
 
 };
