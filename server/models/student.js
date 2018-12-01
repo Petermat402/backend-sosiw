@@ -1,16 +1,16 @@
 'use strict';
 module.exports = (sequelize, DataTypes) => {
     const student = sequelize.define('student', {
-        /*id_student: {
-            primaryKey: true,
+        id: {
+            type: DataTypes.INTEGER,
             allowNull: false,
-            type: DataTypes.INTEGER
-        },*/
-        imie: {
+            primaryKey: true
+        },
+        name: {
             allowNull: false,
             type: DataTypes.STRING
         },
-        nazwisko: {
+        surname: {
             allowNull: false,
             type: DataTypes.STRING
         },
@@ -22,7 +22,7 @@ module.exports = (sequelize, DataTypes) => {
             allowNull: false,
             type: DataTypes.STRING
         },
-        grupa: {
+        group: {
             allowNull: false,
             type: DataTypes.STRING
         },

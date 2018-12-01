@@ -1,17 +1,21 @@
 const student = require('../models').student;
 
 module.exports = {
-    create(req, res) {
+    create(req, res, id) {
         return student
             .create({
-                imie: req.body.nazwisko,
-                nazwisko: req.body.nazwisko,
+                id: id,
+                name: req.body.name,
+                surname: req.body.surname,
                 pesel: req.body.pesel,
                 email: req.body.email,
-                grupa: req.body.grupa,
+                group: req.body.group,
                 departament: req.body.departament
             })
-            .then(nauczyciel => res.status(201).send(nauczyciel))
-            .catch(error => res.status(400).send(error));
     },
+
+    findByIdentyficator(id){
+        return student.findById(id)
+    }
+
 };

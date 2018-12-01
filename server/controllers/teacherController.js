@@ -1,16 +1,18 @@
 const teacher = require('../models').teacher;
 
 module.exports = {
-    create(req, res) {
+    create(req, res, id) {
         return teacher
             .create({
+                id: id,
                 name: req.body.name,
                 surname: req.body.surname,
                 pesel: req.body.pesel,
                 email: req.body.email,
                 departament: req.body.departament
             })
-            .then(teacher => res.status(201).send(teacher))
-            .catch(error => res.status(400).send(error));
     },
+    findByIdentyficator(id){
+        return teacher.findById(id)
+    }
 };

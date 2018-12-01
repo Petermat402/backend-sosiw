@@ -4,6 +4,7 @@ const courseController = require('./courseController');
 const teacherController = require('./teacherController');
 const studentController = require('./studentController');
 const authorizationController = require('./authorizationController');
+const administratorController = require('./administratorController')
 
 module.exports = {
     loginController,
@@ -11,5 +12,6 @@ module.exports = {
     courseController,
     teacherController,
     studentController,
-    authorizationController
+    authorizationController,
+    administratorController
 };
