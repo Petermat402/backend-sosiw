@@ -1,6 +1,6 @@
 'use strict';
 module.exports = (sequelize, DataTypes) => {
-    const student = sequelize.define('student', {
+    const user = sequelize.define('user', {
         id: {
             type: DataTypes.INTEGER,
             allowNull: false,
@@ -23,21 +23,27 @@ module.exports = (sequelize, DataTypes) => {
             type: DataTypes.STRING
         },
         group: {
-            allowNull: false,
             type: DataTypes.STRING
         },
         departament: {
             allowNull: false,
             type: DataTypes.STRING
+        },
+        role: {
+            allowNull: false,
+            type: DataTypes.STRING
         }
     });
-    student.associate = function (models) {
-        student.belongsTo(models.credential, {
+    user.associate = function (models) {
+        user.belongsTo(models.credential, {
             foreignKey: 'id'
         });
-        student.hasMany(models.grade, {
+        user.hasMany(models.grade, {
             foreignKey: 'id_student'
+        });
+        user.hasMany(models.course, {
+            foreignKey: 'id_teacher'
         })
     };
-    return student;
+    return user;
 };

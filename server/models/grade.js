@@ -15,7 +15,7 @@ module.exports = (sequelize, DataTypes) => {
     }
   });
   ocena.associate = function(models) {
-   ocena.belongsTo(models.student, {
+   ocena.belongsTo(models.user, {
      foreignKey: 'id'
    });
    ocena.belongsTo(models.course, {

@@ -17,10 +17,6 @@ module.exports = {
                 allowNull: false,
                 type: Sequelize.STRING
             },
-            role: {
-                allowNull: false,
-                type: Sequelize.STRING
-            },
             createdAt: {
                 allowNull: false,
                 type: Sequelize.DATE
@@ -29,12 +25,7 @@ module.exports = {
                 allowNull: false,
                 type: Sequelize.DATE
             }
-        }).then(() => queryInterface.addConstraint('credentials', ['role'], {
-            type: 'check',
-            where: {
-                role: ['S', 'T', 'A']
-            }
-        }));
+        });
     },
     down: (queryInterface, /*Sequelize*/) => {
         return queryInterface.dropTable('credentials');

@@ -15,8 +15,7 @@ module.exports = {
             credential
                 .create({
                     login: req.body.login,
-                    password: hashedPassword,
-                    role: req.body.role
+                    password: hashedPassword
                 }),
             Promise.resolve(req),
             Promise.resolve(res)

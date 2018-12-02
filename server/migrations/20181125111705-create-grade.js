@@ -17,7 +17,7 @@ module.exports = {
                 primaryKey: true,
                 type: Sequelize.INTEGER,
                 references: {
-                    model : 'students',
+                    model : 'users',
                     key: 'id',
                     as: 'id_course'
                 }

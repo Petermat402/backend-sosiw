@@ -1,10 +1,9 @@
 'use strict';
 module.exports = {
     up: (queryInterface, Sequelize) => {
-        return queryInterface.createTable('students', {
+        return queryInterface.createTable('users', {
             id: {
                 allowNull: false,
-                autoIncrement: true,
                 primaryKey: true,
                 type: Sequelize.INTEGER,
                 references: {
@@ -25,13 +24,16 @@ module.exports = {
                 type: Sequelize.STRING
             },
             email: {
-                type: Sequelize.STRING
-            },
-            group: {
                 allowNull: false,
                 type: Sequelize.STRING
             },
+            group: {
+                type: Sequelize.STRING
+            },
             departament: {
+                type: Sequelize.STRING
+            },
+            role: {
                 allowNull: false,
                 type: Sequelize.STRING
             },
@@ -43,9 +45,14 @@ module.exports = {
                 allowNull: false,
                 type: Sequelize.DATE
             }
-        });
+        }).then(() => queryInterface.addConstraint('users', ['role'], {
+            type: 'check',
+            where: {
+                role: ['S', 'T', 'A']
+            }
+        }));
     },
-    down: (queryInterface, /*Sequelize*/) => {
-        return queryInterface.dropTable('students');
+    down: (queryInterface, Sequelize) => {
+        return queryInterface.dropTable('users');
     }
 };

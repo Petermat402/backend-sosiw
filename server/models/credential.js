@@ -9,17 +9,10 @@ module.exports = (sequelize, DataTypes) => {
         password: {
             type: DataTypes.STRING,
             allowNull: false
-        },
-        role: {
-            type: DataTypes.STRING,
-            allowNull: false
         }
     });
     credential.associate = function (models) {
-        credential.hasOne(models.student, {
-            foreignKey: 'id'
-        });
-        credential.hasOne(models.teacher, {
+        credential.hasOne(models.user, {
             foreignKey: 'id'
         })
     };
