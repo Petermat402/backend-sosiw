@@ -12,6 +12,7 @@ app.use(cors());
 require('./server/routes/login')(app);
 require('./server/routes/grade')(app);
 require('./server/routes/search')(app);
+require('./server/routes/settings')(app);
 app.get('*', (req, res) => res.status(200).send({
     message: 'Welcome to the beginning of nothingness.',
 }));

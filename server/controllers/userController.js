@@ -28,6 +28,35 @@ module.exports = {
                 }
             }
         )
-    }
+    },
+
+    changeEmail(req, res, next) {
+        user.findByPk(req.userId)
+            .then(user => {
+                if (!user) {
+                    throw {
+                        code: '404',
+                        text: 'No such user'
+                    }
+                }
+                return user.update({
+                    email: req.body.email
+                })
+            })
+            .then(() => {
+                res.status(200).send({
+                    message: 'email succesfully updated'
+                })
+            })
+            .catch(err => {
+                if (err.code) {
+                    res.status(err.code).send(err.text)
+                } else {
+                    res.status(400).send(err)
+                }
+            })
+    },
+
+
 
 };

@@ -1,4 +1,4 @@
-const authenticationService = require('../services/authenticationService');
+const authenticationService = require('../services').authenticationService
 const credentialController = require('./credentialController');
 const userController = require('./userController');
 const atob = require('atob');
