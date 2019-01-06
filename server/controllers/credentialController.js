@@ -32,18 +32,18 @@ module.exports = {
     changePassword(req, res, next) {
         let passwordOld = atob(req.body.passwordOld);
         let passwordNew = bcrypt.hashSync(atob(req.body.passwordNew), 10);
-        credential.findByPf(req.userId)
+        credential.findByPk(req.userId)
             .then(credential => {
                 if (!credential) {
                     throw {
-                        code: '404',
+                        code: 420,
                         text: 'No such user'
                     }
                 }
                 if (!bcrypt.compareSync(passwordOld, credential.password)) {
                     throw {
-                        code: '432',
-                        text: 'Wrong password'
+                        code: 423,
+                        text: 'Wrong password provided'
                     }
                 }
                 return credential.update({

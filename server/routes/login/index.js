@@ -7,5 +7,5 @@ module.exports = (app) => {
     app.post('/register', authenticationService.verifyToken, userController.isAdministrator ,loginController.register);
     app.get('/token', loginController.token);
     app.post('/login',  loginController.login);
-
+    app.get('/academicYear', loginController.getAcademicYear)
 };

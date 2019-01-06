@@ -2,11 +2,13 @@
 const http = require('http');
 const app = require('../app'); // The express app we just created
 const authorizationController = require('../server/controllers/authorizationController');
+const academicYearService = require('../server/services/academicYearService');
 const port = parseInt(process.env.PORT, 10) || 8000;
 
 app.set('port', port);
 
 authorizationController.setUp();
+academicYearService.setAcademicYear();
 
 const server = http.createServer(app);
 server.listen(port);
