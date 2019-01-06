@@ -1,20 +1,21 @@
 'use strict';
 module.exports = {
     up: (queryInterface, Sequelize) => {
-        return queryInterface.createTable('Credential', {
-            login: {
-                allowNull: false,
-                type: Sequelize.STRING
-            },
-            haslo: {
-                allowNull: false,
-                type: Sequelize.STRING
-            },
-            id_osoby: {
+        return queryInterface.createTable('credentials', {
+            id: {
                 allowNull: false,
                 autoIncrement: true,
                 primaryKey: true,
                 type: Sequelize.INTEGER
+            },
+            login: {
+                unique: true,
+                allowNull: false,
+                type: Sequelize.STRING
+            },
+            password: {
+                allowNull: false,
+                type: Sequelize.STRING
             },
             createdAt: {
                 allowNull: false,
@@ -26,7 +27,7 @@ module.exports = {
             }
         });
     },
-    down: (queryInterface, Sequelize) => {
-        return queryInterface.dropTable('Credentials');
+    down: (queryInterface, /*Sequelize*/) => {
+        return queryInterface.dropTable('credentials');
     }
 };

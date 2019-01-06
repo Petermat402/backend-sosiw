@@ -1,15 +1,16 @@
 'use strict';
 module.exports = (sequelize, DataTypes) => {
-    const Student = sequelize.define('Student', {
-        id_student: {
+    const user = sequelize.define('user', {
+        id: {
+            type: DataTypes.INTEGER,
             allowNull: false,
-            type: DataTypes.INTEGER
+            primaryKey: true
         },
-        imie: {
+        name: {
             allowNull: false,
             type: DataTypes.STRING
         },
-        nazwisko: {
+        surname: {
             allowNull: false,
             type: DataTypes.STRING
         },
@@ -21,22 +22,28 @@ module.exports = (sequelize, DataTypes) => {
             allowNull: false,
             type: DataTypes.STRING
         },
-        grupa: {
+        group: {
+            type: DataTypes.STRING
+        },
+        departament: {
             allowNull: false,
             type: DataTypes.STRING
         },
-        wydzial: {
+        role: {
             allowNull: false,
             type: DataTypes.STRING
         }
     });
-    Student.associate = function (models) {
-        Student.belongsTo(models.credential, {
-            foreignKey: 'id_osoby'
+    user.associate = function (models) {
+        user.belongsTo(models.credential, {
+            foreignKey: 'id'
         });
-        Student.hasMany(models.ocena, {
+        user.hasMany(models.grade, {
             foreignKey: 'id_student'
+        });
+        user.hasMany(models.course, {
+            foreignKey: 'id_teacher'
         })
     };
-    return Student;
+    return user;
 };

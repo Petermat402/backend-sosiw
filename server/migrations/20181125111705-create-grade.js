@@ -1,14 +1,15 @@
 'use strict';
 module.exports = {
     up: (queryInterface, Sequelize) => {
-        return queryInterface.createTable('Ocena', {
-            id_przedmiot: {
+        return queryInterface.createTable('grades', {
+            id_course: {
                 allowNull: false,
                 primaryKey: true,
                 type: Sequelize.INTEGER,
                 references:{
-                    model : 'Przedmiot',
-                    key: 'id_przedmiot'
+                    model : 'courses',
+                    key: 'id',
+                    as: 'id_course'
                 }
             },
             id_student: {
@@ -16,11 +17,12 @@ module.exports = {
                 primaryKey: true,
                 type: Sequelize.INTEGER,
                 references: {
-                    model : 'Student',
-                    key: 'id_student'
+                    model : 'users',
+                    key: 'id',
+                    as: 'id_course'
                 }
             },
-            wartosc: {
+            value: {
                 allowNull: true,
                 type: Sequelize.DECIMAL
             },
@@ -34,7 +36,7 @@ module.exports = {
             }
         });
     },
-    down: (queryInterface, Sequelize) => {
-        return queryInterface.dropTable('Ocenas');
+    down: (queryInterface, /*Sequelize*/) => {
+        return queryInterface.dropTable('grades');
     }
 };

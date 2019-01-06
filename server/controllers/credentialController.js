@@ -1,13 +1,67 @@
-const Credential = require('../models').Credential;
+const credential = require('../models').credential;
+const atob = require('atob');
+const bcrypt = require('bcryptjs');
 
 module.exports = {
-    create(req, res) {
-        return Credential
-            .create({
-                login: req.body.login,
-                haslo: req.body.haslo
+    findByLogin(login) {
+        return credential
+            .find({
+                where: {
+                    login: login
+                }
             })
-            .then(credential => res.status(201).send(credential))
-            .catch(error => res.status(400).send(error));
     },
+
+    create(req, res, hashedPassword) {
+        return Promise.all([
+            credential
+                .create({
+                    login: req.body.login,
+                    password: hashedPassword
+                }),
+            Promise.resolve(req),
+            Promise.resolve(res)
+        ])
+
+    },
+
+    findByIdentyficator(id) {
+        return credential.findById(id)
+    },
+
+    changePassword(req, res, next) {
+        let passwordOld = atob(req.body.passwordOld);
+        let passwordNew = bcrypt.hashSync(atob(req.body.passwordNew), 10);
+        credential.findByPk(req.userId)
+            .then(credential => {
+                if (!credential) {
+                    throw {
+                        code: 420,
+                        text: 'No such user'
+                    }
+                }
+                if (!bcrypt.compareSync(passwordOld, credential.password)) {
+                    throw {
+                        code: 423,
+                        text: 'Wrong password provided'
+                    }
+                }
+                return credential.update({
+                    password: passwordNew
+                })
+
+            })
+            .then(() => {
+                res.status(200).send({
+                    message: 'password has been changed'
+                })
+            })
+            .catch(err => {
+                if (err.code) {
+                    res.status(err.code).send(err.text)
+                } else {
+                    res.status(400).send(err)
+                }
+            })
+    }
 };
