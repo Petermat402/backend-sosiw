@@ -32,6 +32,10 @@ module.exports = (sequelize, DataTypes) => {
         role: {
             allowNull: false,
             type: DataTypes.STRING
+        },
+        active: {
+            allowNull: false,
+            type: DataTypes.BOOLEAN
         }
     });
     user.associate = function (models) {

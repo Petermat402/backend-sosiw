@@ -13,7 +13,8 @@ module.exports = {
                 email: req.body.email,
                 group: req.body.group,
                 departament: req.body.departament,
-                role: req.body.role
+                role: req.body.role,
+                active: true
             })
     },
 
@@ -21,19 +22,30 @@ module.exports = {
         return user.findByPk(id)
     },
 
+    isActiveUser(req, res, next) {
+        user.findByPk(req.userId).then(user => {
+            if(user && user.active) {
+                req.user = user;
+                next();
+            } else {
+                res.status(420).send("No such active user")
+            }
+        })
+    },
+
     isAdministrator(req, res, next) {
         user.findByPk(req.userId).then(user => {
-                if (user.role === 'A') {
+                if (user && user.role === 'A' && user.active) {
                     next();
                 } else {
-                    res.status(401).send("unathorized user")
+                    res.status(401).send("unauthorized user")
                 }
             }
         )
     },
     isStudent(req, res, next) {
         user.findByPk(req.userId).then(user => {
-                if (user.role === 'S') {
+                if (user && user.active && user.role === 'S') {
                     next();
                 } else {
                     res.status(401).send("unathorized user")
@@ -43,7 +55,7 @@ module.exports = {
     },
     isTeacher(req, res, next) {
         user.findByPk(req.userId).then(user => {
-                if (user.role === 'T') {
+                if (user && user.active && user.role === 'T') {
                     next();
                 } else {
                     res.status(401).send("unathorized user")
@@ -52,22 +64,35 @@ module.exports = {
         )
     },
 
+    getUserById(req, res, next) {
+        user.findByPk(req.userId).then(user => {
+            if(user && user.active) {
+                res.status(200).send({user: user})
+            } else {
+                res.status(420).send("No such active user")
+            }
+        }).catch(err => {
+            res.status(400).send(err)
+        })
+    },
+
     changeEmail(req, res, next) {
         user.findByPk(req.userId)
             .then(user => {
-                if (!user) {
+                if (!user || !user.active) {
                     throw {
                         code: 420,
-                        text: 'No such user'
+                        text: 'No such active user'
                     }
                 }
                 return user.update({
                     email: req.body.email
                 })
             })
-            .then(() => {
+            .then(userAfterUpdate => {
                 res.status(200).send({
-                    message: 'email succesfully updated'
+                    message: 'email succesfully updated',
+                    email: userAfterUpdate.email
                 })
             })
             .catch(err => {
@@ -82,10 +107,10 @@ module.exports = {
     getColleagues(req, res, next) {
         user.findByPk(req.userId)
             .then(foundUser => {
-                if (!foundUser) {
+                if (!foundUser || !foundUser.active) {
                     throw {
                         code: 420,
-                        text: 'No such user'
+                        text: 'No such active user'
                     }
                 }
                 if (foundUser.role === 'S') {

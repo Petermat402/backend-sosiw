@@ -17,7 +17,6 @@ module.exports = {
     },
 
     getStudentGrades(req, res, next) {
-        grade.find
         grade.findAll({
             where: {
                 id_student: req.userId
@@ -27,33 +26,42 @@ module.exports = {
             }
         })
             .then(grades => {
-                const gradesToSend = [];
+                const gradesRetrieved = [];
                 _.each(grades, grade => {
-                    gradesToSend.push(course.findByPk(grade.id_course)
+                    gradesRetrieved.push(course.findOne({
+                        where: {
+                            id: grade.id_course,
+                            academicYear: req.params.academicYear,
+                            semester: req.params.semester
+                        }
+                    })
                         .then(course => {
-                            return user.findByPk(course.id_teacher)
-                                .then(teacher => {
-                                    if (teacher.role !== 'T') {
-                                        throw {
-                                            code: 421,
-                                            text: 'Wrong person assigned as teacher'
+                            if (course) {
+                                return user.findByPk(course.id_teacher)
+                                    .then(teacher => {
+                                        if (teacher.role !== 'T') {
+                                            throw {
+                                                code: 421,
+                                                text: 'Wrong person assigned as teacher'
+                                            }
                                         }
-                                    }
-                                    return {
-                                        courseName: course.name,
-                                        teacherName: teacher.name,
-                                        teacherSurname: teacher.surname,
-                                        value: grade.value,
-                                        term: grade.term,
-                                        academicYear: course.academicYear,
-                                        semester: course.semester
-                                    }
-                                })
+                                        return {
+                                            courseName: course.name,
+                                            teacherName: teacher.name,
+                                            teacherSurname: teacher.surname,
+                                            value: grade.value,
+                                            term: grade.term,
+                                            academicYear: course.academicYear,
+                                            semester: course.semester
+                                        }
+                                    })
+                            } else return Promise.resolve();
                         }))
                 });
-                return Promise.all(gradesToSend);
+                return Promise.all(gradesRetrieved);
             })
-            .then(gradesToSend => {
+            .then(gradesRetrieved => {
+                const gradesToSend = _.compact(gradesRetrieved);
                 res.status(200).send(gradesToSend);
             })
             .catch(err => {
@@ -69,7 +77,9 @@ module.exports = {
     getTeacherGrades(req, res, next) {
         course.findAll({
             where: {
-                id_teacher: req.userId
+                id_teacher: req.userId,
+                academicYear: req.params.academicYear,
+                semester: req.params.semester
             }
         })
             .then(courses => {
@@ -130,9 +140,9 @@ module.exports = {
                 }
             })
             .then(foundGrade => {
-                if(foundGrade){
+                if (foundGrade) {
                     return course.findByPk(foundGrade.id_course).then(course => {
-                        if(course.academicYear === academicYear.value) {
+                        if (course.academicYear === academicYear.value) {
                             return foundGrade.update({
                                 value: req.body.value
                             })

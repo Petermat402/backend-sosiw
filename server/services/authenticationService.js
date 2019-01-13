@@ -4,7 +4,6 @@ var config = require('../config/JWTConfig');
 module.exports = {
     verifyToken(req, res, next){
         const token = req.headers['token'];
-        console.log(token)
         if (!token)
             return res.status(419).send({ auth: false, message: 'No token provided.' });
 
