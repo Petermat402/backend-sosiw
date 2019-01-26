@@ -24,7 +24,7 @@ module.exports = {
 
     isActiveUser(req, res, next) {
         user.findByPk(req.userId).then(user => {
-            if(user && user.active) {
+            if (user && user.active) {
                 req.user = user;
                 next();
             } else {
@@ -66,7 +66,7 @@ module.exports = {
 
     getUserById(req, res, next) {
         user.findByPk(req.userId).then(user => {
-            if(user && user.active) {
+            if (user && user.active) {
                 res.status(200).send({user: user})
             } else {
                 res.status(420).send("No such active user")
@@ -94,6 +94,57 @@ module.exports = {
                     message: 'email succesfully updated',
                     email: userAfterUpdate.email
                 })
+            })
+            .catch(err => {
+                if (err.code) {
+                    res.status(err.code).send(err.text)
+                } else {
+                    res.status(400).send(err)
+                }
+            })
+    },
+
+    changeLanguage(req, res, next) {
+        user.findByPk(req.userId)
+            .then(foundUser => {
+                if (foundUser && foundUser.active) {
+                    return foundUser.update({
+                        language: req.body.language
+                    })
+                }
+                throw {
+                    code: 420,
+                    text: 'No such active user'
+                }
+            })
+            .then(user => {
+                res.status(200).send({
+                    message: "Language updated",
+                    language: user.language
+                })
+            })
+            .catch(err => {
+                if (err.code) {
+                    res.status(err.code).send(err.text)
+                } else {
+                    res.status(400).send(err)
+                }
+            })
+    },
+
+    getLanguage(req, res, next) {
+        user.findByPk(req.userId)
+            .then(foundUser => {
+                if (foundUser && foundUser.active) {
+                    return foundUser.language
+                }
+                throw {
+                    code: 420,
+                    text: 'No such active user'
+                }
+            })
+            .then(language => {
+                res.status(200).send({language: language})
             })
             .catch(err => {
                 if (err.code) {

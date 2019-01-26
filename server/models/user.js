@@ -36,6 +36,13 @@ module.exports = (sequelize, DataTypes) => {
         active: {
             allowNull: false,
             type: DataTypes.BOOLEAN
+        },
+        reminder: {
+            type: DataTypes.BOOLEAN
+        },
+        language: {
+            type: DataTypes.STRING,
+            allowNull: false
         }
     });
     user.associate = function (models) {
