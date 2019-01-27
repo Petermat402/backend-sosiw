@@ -3,12 +3,14 @@ const http = require('http');
 const app = require('../app'); // The express app we just created
 const authorizationController = require('../server/controllers/authorizationController');
 const academicYearService = require('../server/services/academicYearService');
+const reminderService = require('../server/services/reminderService');
 const port = parseInt(process.env.PORT, 10) || 8000;
 
 app.set('port', port);
 
 authorizationController.setUp();
 academicYearService.setAcademicYear();
+setInterval(reminderService.intervalFunc, 86400000);
 
 const server = http.createServer(app);
 server.listen(port);

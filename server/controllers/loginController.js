@@ -1,4 +1,4 @@
-const authenticationService = require('../services').authenticationService
+const authenticationService = require('../services').authenticationService;
 const credentialController = require('./credentialController');
 const userController = require('./userController');
 const atob = require('atob');
@@ -46,12 +46,20 @@ module.exports = {
                 }
             })
             .then(user => {
-                const token = authenticationService.createToken(user.id);
-                res.status(200).send({
-                    auth: true,
-                    token: token,
-                    user
-                })
+                if (user && user.active) {
+                    const token = authenticationService.createToken(user.id);
+                    res.status(200).send({
+                        auth: true,
+                        token: token,
+                        user
+                    })
+                } else {
+                    throw {
+                        code: 420,
+                        text: 'No such active user'
+                    }
+                }
+
             })
             .catch(err => {
                 if (err.code) {
@@ -61,9 +69,19 @@ module.exports = {
                 }
             })
     },
+
     getAcademicYear(req, res, next) {
         res.status(200).send({
             academicYear: academicYear.value
+        })
+    },
+
+    getNewToken(req, res, next) {
+        const newToken = authenticationService.createToken(req.userId);
+        res.status(200).send({
+            auth: true,
+            token: newToken,
+            user: req.user
         })
     }
 };
