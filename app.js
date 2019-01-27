@@ -17,6 +17,7 @@ require('./server/routes/colleagues')(app);
 require('./server/routes/email')(app);
 require('./server/routes/common')(app);
 require('./server/routes/calendar')(app);
+require('./server/routes/recovery')(app);
 app.get('*', (req, res) => res.status(200).send({
     message: 'Welcome to the beginning of nothingness.',
 }));

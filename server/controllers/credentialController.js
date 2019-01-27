@@ -26,7 +26,7 @@ module.exports = {
     },
 
     findByIdentyficator(id) {
-        return credential.findById(id)
+        return credential.findByPk(id)
     },
 
     changePassword(req, res, next) {
@@ -54,6 +54,34 @@ module.exports = {
             .then(() => {
                 res.status(200).send({
                     message: 'password has been changed'
+                })
+            })
+            .catch(err => {
+                if (err.code) {
+                    res.status(err.code).send(err.text)
+                } else {
+                    res.status(400).send(err)
+                }
+            })
+    },
+
+    recoverPassword(req, res, next) {
+        let passwordNew = bcrypt.hashSync(atob(req.body.password), 10);
+        credential.findByPk(req.userId)
+            .then(credential => {
+                if(credential && credential.login === req.login) {
+                    return credential.update({
+                        password: passwordNew
+                    })
+                }
+                throw {
+                    code: 420,
+                    text: 'No such user'
+                }
+            })
+            .then(credential => {
+                res.status(200).send({
+                    message: 'password successfully changed'
                 })
             })
             .catch(err => {

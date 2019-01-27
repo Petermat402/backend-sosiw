@@ -14,7 +14,9 @@ module.exports = {
                 group: req.body.group,
                 departament: req.body.departament,
                 role: req.body.role,
-                active: true
+                active: true,
+                reminder: false,
+                language: req.body.language
             })
     },
 

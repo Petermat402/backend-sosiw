@@ -13,6 +13,9 @@ module.exports = {
 
             // if everything good, save to request for use in other routes
             req.userId = decoded.id;
+            if(decoded.login) {
+                req.login = decoded.login;
+            }
             next();
         });
     },
@@ -21,5 +24,11 @@ module.exports = {
         return jwt.sign({id: id}, config.key, {
             expiresIn: 86400 // expires in 24 hours
         });
+    },
+
+    createRecoveryToken(id, login) {
+        return jwt.sign({id: id, login: login}, config.key, {
+            expiresIn: 3600 // expires in 1h
+        })
     }
 };
