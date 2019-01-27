@@ -133,13 +133,14 @@ module.exports = {
                     },
                     err => console.error(err))
         });
-    }, intervalFunc() {
+    },
+
+    intervalFunc() {
         module.exports.findStudentsToRemind().then(users => {
             module.exports.sendRemainders(users);
         });
         module.exports.findTeachersToRemind().then(users => {
             module.exports.sendRemainders(users);
-            console.log('jahujjjj==>>', users);
         });
 
     }

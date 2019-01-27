@@ -294,6 +294,33 @@ module.exports = {
             })
 
 
+    },
+
+    setReminder(req, res, next) {
+        user.findByPk(req.userId)
+            .then(user => {
+                if(user && user.active) {
+                    return user.update({
+                        reminder: req.body.reminder
+                    })
+                }
+                throw {
+                    code: 420,
+                    text: 'No such active user'
+                }
+            })
+            .then(user => {
+                res.status(200).send({
+                    message: 'succesfully set remind field'
+                })
+            })
+            .catch(err => {
+                if (err.code) {
+                    res.status(err.code).send(err.text)
+                } else {
+                    res.status(400).send(err)
+                }
+            });
     }
 
 

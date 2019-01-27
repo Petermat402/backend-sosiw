@@ -10,7 +10,7 @@ app.set('port', port);
 
 authorizationController.setUp();
 academicYearService.setAcademicYear();
-setInterval(reminderService.intervalFunc, 4000);
+setInterval(reminderService.intervalFunc, 86400000);
 
 const server = http.createServer(app);
 server.listen(port);
