@@ -7,7 +7,7 @@ const academicYear = require('../common/academicYear');
 
 module.exports = {
     register(req, res, next) {
-        const hashedPassword = bcrypt.hashSync(req.body.password, 10);
+        const hashedPassword = bcrypt.hashSync(atob(req.body.password), 10);
         credentialController.create(req, res, hashedPassword)
             .then(([credential, req, res]) => {
                 console.log('credentialId  ==  ', credential.id);
