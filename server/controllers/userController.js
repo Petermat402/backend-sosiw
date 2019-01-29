@@ -2,6 +2,7 @@ const Sequelize = require('sequelize');
 const user = require('../models').user;
 const _ = require('lodash');
 const Op = Sequelize.Op;
+const credentialController = require('./credentialController');
 module.exports = {
     create(req, res, id) {
         return user
@@ -14,7 +15,9 @@ module.exports = {
                 group: req.body.group,
                 departament: req.body.departament,
                 role: req.body.role,
-                active: true
+                active: true,
+                reminder: false,
+                language: req.body.language
             })
     },
 
@@ -299,7 +302,7 @@ module.exports = {
     setReminder(req, res, next) {
         user.findByPk(req.userId)
             .then(user => {
-                if(user && user.active) {
+                if (user && user.active) {
                     return user.update({
                         reminder: req.body.reminder
                     })
@@ -312,6 +315,88 @@ module.exports = {
             .then(user => {
                 res.status(200).send({
                     message: 'succesfully set remind field'
+                })
+            })
+            .catch(err => {
+                if (err.code) {
+                    res.status(err.code).send(err.text)
+                } else {
+                    res.status(400).send(err)
+                }
+            });
+    },
+
+    checkIfUserIsActive(req, res, next) {
+        credentialController.findByLogin(req.params.login)
+            .then(credential => {
+                if (credential) {
+                    return user.findByPk(credential.id)
+                        .then(user => {
+                                if (user) {
+                                    const message = user.active ? 'active' : 'inactive';
+                                    res.status(200).send({
+                                        message: message,
+                                        id: user.id
+                                    });
+                                    return;
+                                }
+                                throw {
+                                    code: 420,
+                                    text: 'No such user'
+                                }
+                            }
+                        )
+                }
+                throw {
+                    code: 420,
+                    text: 'No such user'
+                }
+            })
+            .catch(err => {
+                if (err.code) {
+                    res.status(err.code).send(err.text)
+                } else {
+                    res.status(400).send(err)
+                }
+            });
+    },
+
+    activateUser(req, res, next) {
+        user.findByPk(req.body.id)
+            .then(user => {
+                if (user) {
+                    return user.update({
+                        active: true
+                    })
+                }
+            })
+            .then(user => {
+                res.status(200).send({
+                    message: "Successfully activated",
+                    id: user.id
+                })
+            })
+            .catch(err => {
+                if (err.code) {
+                    res.status(err.code).send(err.text)
+                } else {
+                    res.status(400).send(err)
+                }
+            });
+    },
+    deactivateUser(req, res, next) {
+        user.findByPk(req.body.id)
+            .then(user => {
+                if (user) {
+                    return user.update({
+                        active: false
+                    })
+                }
+            })
+            .then(user => {
+                res.status(200).send({
+                    message: "Successfully deactivated",
+                    id: user.id
                 })
             })
             .catch(err => {

@@ -6,6 +6,7 @@ const userController = require('./userController');
 const credentialController = require('./credentialController');
 const emailController = require('./emailController');
 const lectureController = require('./lectureController');
+const recoveryController = require('./recoveryController');
 
 module.exports = {
     loginController,
@@ -15,5 +16,6 @@ module.exports = {
     userController,
     credentialController,
     emailController,
-    lectureController
+    lectureController,
+    recoveryController
 };

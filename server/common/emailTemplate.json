@@ -4,5 +4,11 @@
   "de": "Sie haben morgen Unterricht. Vielleicht lohnt es sich, sich auf sie vorzubereiten?",
   "subjectEn": "Reminder email. No reply",
   "subjectPl": "Przypomnienie. No reply",
-  "subjectDe": "Erinnerungsmail. No reply"
+  "subjectDe": "Erinnerungsmail. No reply",
+  "recoverySubjectEn": "Password recovery",
+  "recoverySubjectPl": "Odzyskiwanie hasła",
+  "recoverySubjectDe": "Passwort-Wiederherstellung",
+  "recoveryTextEn": "You have send request to recover password.\n Please click the provided link in order to change your password. \n If you didn't requested to change password please ignore this message.\n",
+  "recoveryTextPl": "Wysłałeś prośbę o odzyskanie hasła. \n  Kliknij podany link, aby zmienić hasło.\n Jeśli nie poprosiłeś o zmianę hasła, zignoruj tę wiadomość.\n",
+  "recoveryTextDe": "Sie haben eine Anfrage zur Wiederherstellung des Passworts gesendet. \n Bitte klicken Sie auf den angegebenen Link, um Ihr Passwort zu ändern. \n Wenn Sie kein Passwort geändert haben, ignorieren Sie diese Nachricht.\n"
 }

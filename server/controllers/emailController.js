@@ -33,7 +33,7 @@ module.exports = {
                         req.body.subject,
                         req.body.text,
                         user.email,
-                        req.body.password
+                        atob(req.body.password)
                     )
                 }
                 throw {
