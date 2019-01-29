@@ -18,7 +18,6 @@ module.exports = {
                     return user.findByPk(credential.id)
                         .then(user => {
                             const link = environment.frontUrl + 'recovery/' + token;
-                            console.log('dupencja===>', link);
                             let subject = emailTemplate.recoverySubjectEn;
                             let text = emailTemplate.recoveryTextEn;
                             switch (user.language) {
