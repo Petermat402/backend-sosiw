@@ -3,7 +3,7 @@
     "username": "postgres",
     "password": "Kungfupiotr1",
     "database": "uczelniaDB-dev",
-    "host": "127.0.0.1",
+    "host": "https://node60697-test-sosiw.unicloud.pl/",
     "port": 5432,
     "dialect": "postgres"
   },
@@ -11,7 +11,7 @@
     "username": "postgres",
     "password": "Kungfupiotr1",
     "database": "uczelniaDB-test",
-    "host": "127.0.0.1",
+    "host": "https://node60697-test-sosiw.unicloud.pl/",
     "port": 5432,
     "dialect": "postgres"
   },
@@ -19,7 +19,7 @@
     "username": "postgres",
     "password": "Kungfupiotr1",
     "database": "uczelniaDB-prod",
-    "host": "127.0.0.1",
+    "host": "https://node60697-test-sosiw.unicloud.pl/",
     "port": 5432,
     "dialect": "postgres"
   }
